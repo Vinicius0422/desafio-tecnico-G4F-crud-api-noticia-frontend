@@ -10,10 +10,15 @@ interface NoticiasPaginadas {
     data: NoticiaProps[]
 }
 
-interface NoticiaProps {
+export interface NoticiaProps {
     id: string;
     titulo: string;
     descricao: string;
+}
+
+export interface NoticiaRequestProps {
+  titulo: string;
+  descricao: string;
 }
 
 class NoticiaService {
@@ -27,27 +32,33 @@ class NoticiaService {
       });
       return resposta.data;
     } catch (erro) {
-      console.error('Erro ao buscar notícias:', erro);
       throw erro;
     }
   }
 
-  static async salvarNoticia(noticia: NoticiaProps): Promise<NoticiaProps> {
+  static async buscarNoticiaPeloId(id: string): Promise<NoticiaProps> {
+    try {
+      const response = await axios.get(`${URL_API}/${id}`);
+      return response.data
+    } catch (erro) {
+      throw erro;
+    }
+  }
+
+  static async salvarNoticia(noticia: NoticiaRequestProps): Promise<NoticiaProps> {
     try {
       const resposta = await axios.post(URL_API, noticia);
       return resposta.data;
     } catch (erro) {
-      console.error('Erro ao salvar notícia:', erro);
       throw erro;
     }
   }
 
-  static async editarNoticia(id: string, noticia: NoticiaProps): Promise<NoticiaProps> {
+  static async editarNoticia(id: string, noticia: NoticiaRequestProps): Promise<NoticiaProps> {
     try {
       const resposta = await axios.put(`${URL_API}/${id}`, noticia);
       return resposta.data;
     } catch (erro) {
-      console.error('Erro ao editar notícia:', erro);
       throw erro;
     }
   }
@@ -56,7 +67,6 @@ class NoticiaService {
     try {
       await axios.delete(`${URL_API}/${id}`);
     } catch (erro) {
-      console.error('Erro ao excluir notícia:', erro);
       throw erro;
     }
   }

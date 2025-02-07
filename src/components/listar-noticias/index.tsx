@@ -1,21 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import  axios  from 'axios';
 import { Pagination } from '@mui/material';
-
-import './listar-noticias.css';
 import { Edit, PlusCircle, Trash } from 'lucide-react';
 import { Button } from '../button/index.tsx';
 import NoticiaService from '../../service/noticia-service.ts';
-import { useNavigate } from 'react-router-dom';
 
-interface NoticiasPaged {
-    page: number,
-    limit: number,
-    total: number,
-    totalPages: number,
-    data: NoticiasProps[]
-}
+import './listar-noticias.css';
+import { toast } from 'react-toastify';
+
 
 interface NoticiasProps {
     id: string;
@@ -28,12 +21,11 @@ const ListarNoticias = () => {
     const [loading, setLoading] = useState(false);
 
     const [noticiasPaged, setNoticiasPaged] = useState<NoticiasProps[]>([]);
-    const [totalNoticias, setTotalNoticias] = useState(0); // Total de notícias para calcular o número de páginas
+    const [totalNoticias, setTotalNoticias] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-    const [limit, setLimit] = useState(5); // Quantidade de itens por página
+    const [limit, setLimit] = useState(5);
     const [totalPages, setTotalPages] = useState(1);
 
-    const [erro, setErro] = useState('');
 
 
     const fetchNoticias = async (page, limit) => {
@@ -44,7 +36,7 @@ const ListarNoticias = () => {
         setTotalNoticias(response.total);
         setTotalPages(response.totalPages);
       } catch (error) {
-        setErro(error.message)
+        toast.error(error?.response?.data?.erro || "Erro ao buscar notícia");
       } finally {
         setLoading(false);
       }
@@ -52,15 +44,10 @@ const ListarNoticias = () => {
 
     useEffect(() => {
         fetchNoticias(currentPage, limit);
-    }, [currentPage, limit]);
+    }, [currentPage]);
     
       const handlePageChange = (event, value) => {
         setCurrentPage(value);
-      };
-    
-      const handleLimitChange = (event) => {
-        setLimit(event.target.value);
-        setCurrentPage(1);
       };
 
       const handleEdit = async (id: string) => {
@@ -68,18 +55,22 @@ const ListarNoticias = () => {
       }
     
       const handleDelete = async (id: string) => {
-        await NoticiaService.excluirNoticia(id);
-        setCurrentPage(1);
-        fetchNoticias(currentPage, limit);
+        try{
+          await NoticiaService.excluirNoticia(id);
+          toast.success("Notícia deletada com sucesso!");
+        } catch (error){
+          toast.error(error?.response?.data?.erro || "Erro ao deletar notícia");
+        } finally {
+          setCurrentPage(1);
+          fetchNoticias(currentPage, limit);
+        }
       }
 
     return (
-        <main>
-            <section>
-              <div className="container">
+        <main className="container">
+          <section className="wrapper">
                 <div className="content">
                     <h2>Lista de Notícias</h2>
-
                     <Button url="/novo">
                       <PlusCircle/>
                       <span>Adicionar Notícia</span>
@@ -88,8 +79,6 @@ const ListarNoticias = () => {
                     {loading && <p className="texto-carregando">Carregando...</p>}
 
                     {!loading && noticiasPaged.length === 0 && <p className="texto-sem-noticias">Não há notícias disponíveis.</p>}
-
-                    {erro && noticiasPaged.length === 0 && <p className="texto-sem-noticias">{erro}</p>}
 
                     <ul className="lista-noticias">
                         {!!noticiasPaged.length && noticiasPaged?.map((noticia) => (
@@ -117,8 +106,7 @@ const ListarNoticias = () => {
                         shape="rounded" 
                     />
                 </div>
-              </div>
-            </section>
+          </section>
         </main>
     )
 }
