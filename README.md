@@ -1,46 +1,77 @@
-# Getting Started with Create React App
+# Desafio Técnico - G4F - CRUD REST API - Notícia - Frontend
+##  Este repositório contém a solução para o desafio técnico G4F de implementar uma api crud rest para entidade "notícia".
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Dependências necessárias
+- Docker
+- Node v22.13.1
+- Npm v10.9.2
 
-## Available Scripts
+## Dependências necessárias
+- Para executar essa aplicação é necessário executar a API que está disponível em https://github.com/Vinicius0422/desafio-tecnico-G4F-crud-api-noticia.git, basta seguir os passos do README.me para executá-la.
 
-In the project directory, you can run:
+## Baixar o Código Fonte
+Para baixar o código fonte, é necessário ter o Git instalado em sua máquina.
 
-### `npm start`
+Acesse o terminal no diretório desejado e execute o seguinte comando:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```
+git clone https://github.com/Vinicius0422/desafio-tecnico-G4F-crud-api-noticia-frontend.git
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Isso fará o download do repositório para sua máquina local.
 
-### `npm test`
+## Executar a Aplicação Localmente
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Instalar dependências do projeto
 
-### `npm run build`
+Para iniciar, execute o seguinte comando no terminal:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+npm install
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. Iniciar a Aplicação Localmente
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Para iniciar a aplicação localmente, execute o comando:
 
-### `npm run eject`
+```
+npm start
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Isso irá iniciar o servidor e você poderá acessar a aplicação em http://localhost:3000.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Executar a Aplicação no Docker
+Para executar a aplicação dentro de um container Docker, siga os passos abaixo:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+1. Gerar a Imagem Docker
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Execute o comando a seguir para construir a imagem Docker da aplicação:
 
-## Learn More
+```
+docker buildx build -t crud-api-noticia-frontend:v1.2.0 .
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Esse comando irá criar a imagem com a tag crud-api-noticia-frontend:v1.2.0.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+2. Rodar a Imagem Docker
+
+Após a construção da imagem, execute o seguinte comando para rodar a aplicação em um container Docker:
+
+```
+docker run -p 8081:80 crud-api-noticia-frontend:v1.2.0
+```
+
+Acessar a Aplicação
+
+Acesse a aplicação em http://localhost:8081 no seu navegador.
+
+## Justificativa para a Estrutura de Pastas e Arquivos
+A estrutura de diretórios foi organizada com base nos princípios de modularização e componentização. As pastas e arquivos foram distribuídos conforme suas responsabilidades, visando:
+
+- Clareza: Organização de pastas por responsabilidade, tornando o código fácil de entender.
+- Manutenibilidade: A organização modular facilita a atualização e a manutenção do projeto, permitindo que alterações sejam feitas de maneira isolada.
+- Escalabilidade: A estrutura facilita o crescimento do projeto, permitindo adicionar novas funcionalidades sem comprometer a organização do código.
+A escolha por um modelo de componentização visa a criação de componentes reutilizáveis, que podem ser facilmente mantidos e testados.
+
+Considerações Finais
+Certifique-se de ter as dependências corretamente instaladas antes de rodar a aplicação.
