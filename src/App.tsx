@@ -1,11 +1,18 @@
 import React from 'react';
 import './App.css';
 
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import ListarNoticias from './components/listar-noticias/index.tsx';
+
 function App() {
   return (
-    <div>
-      <h1>Primeiro commit</h1>
-    </div>
+    <Router>
+      <div>
+        <Routes>
+          <Route path="/" element={<ListarNoticias />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

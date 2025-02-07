@@ -1,0 +1,25 @@
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  border: none;
+  cursor: pointer;
+  padding: 1rem;
+  border-radius: 1rem;
+
+  font-size: 0.8rem;
+  font-weight: 700;
+  transition: all 0.5s ease-in-out;
+}
+
+.btn:hover {
+  background-color: #0ea5e9;
+  color: #fff;
+}
+
+@media (min-width: 1024px) {
+  .btn {
+    font-size: 1rem;
+  }
+}
